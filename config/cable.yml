@@ -5,6 +5,9 @@ test:
   adapter: test
 
 production:
-  adapter: redis
-  url: <%= ENV['REDIS_URL'] %>
-  channel_prefix: asb-app-backend_production
+  adapter: async
+
+# production:
+#   adapter: redis
+#   url: <%= ENV['REDIS_URL'] %>
+#   channel_prefix: asb-app-backend_production
