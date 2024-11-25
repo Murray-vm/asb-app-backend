@@ -46,7 +46,7 @@ class AsbSittingsController < ApplicationController
 
   def active_students
     session_id = params[:session_id]
-    student_ids = REDIS.smembers("session_#{session_id}_students")
+    student_ids = REDIS_CLIENT.smembers("session_#{session_id}_students")
     render json: { student_ids: student_ids }
   end
 
