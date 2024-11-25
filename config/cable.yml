@@ -7,4 +7,6 @@ test:
 production:
   adapter: redis
   url: <%= ENV['REDIS_URL'] %>
-  channel_prefix: asb-app-backend_production
+  channel_prefix: asb_app_production
+  ssl_params:
+    verify_mode: <%= OpenSSL::SSL::VERIFY_NONE %>
