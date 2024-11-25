@@ -3,15 +3,19 @@ class JsonWebToken
 
   def self.encode(payload, exp = 12.hours.from_now)
     payload[:exp] = exp.to_i
-
+    Rails.logger.info("Encoding with key: #{JWT_SECRET}")
     JWT.encode(payload, JWT_SECRET)
   end
 
   def self.decode(token)
-    body = JWT.decode(token, JWT_SECRET)[0]
-
-    HashWithIndifferentAccess.new(body)
-  rescue JWT::DecodeError => e
-    raise e
+    Rails.logger.info("Decoding with key: #{JWT_SECRET}")
+    begin
+      body = JWT.decode(token, JWT_SECRET, true, algorithm: 'HS256')[0]
+      Rails.logger.info("Decoded payload: #{body}")
+      HashWithIndifferentAccess.new(body)
+    rescue JWT::DecodeError => e
+      Rails.logger.error("Decode error: #{e.message}")
+      raise e
+    end
   end
 end
