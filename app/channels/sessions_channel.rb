@@ -121,10 +121,12 @@
 
 class SessionsChannel < ApplicationCable::Channel
   def subscribed
-    stream_from "sessions_channel"
+    # The client will stream data for the given session_id
+    stream_for params[:session_id]
   end
 
   def unsubscribed
-  
+    # Cleanup when the client unsubscribes (if necessary)
   end
 end
+

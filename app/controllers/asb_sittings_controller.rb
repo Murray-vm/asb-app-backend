@@ -26,18 +26,36 @@ class AsbSittingsController < ApplicationController
   end
 
   # PATCH/PUT /asb_sittings/1
+  # def update
+  #   if @asb_sitting.update(asb_sitting_params)
+  #     # Broadcast to the channel whenever a sitting is updated
+  #     ActionCable.server.broadcast "sessions_channel", {
+  #       current_section: @asb_sitting.current_section,
+  #       session_id: @asb_sitting.id
+  #     }
+  #     render json: @asb_sitting
+  #   else
+  #     render json: @asb_sitting.errors, status: :unprocessable_entity
+  #   end
+  # end
+  
+
+
   def update
     if @asb_sitting.update(asb_sitting_params)
-      # Broadcast to the channel whenever a sitting is updated
-      ActionCable.server.broadcast "sessions_channel", {
+      # Broadcast to all subscribers of the session
+      SessionsChannel.broadcast_to(
+        @asb_sitting.id, # session_id is the identifier for the stream
         current_section: @asb_sitting.current_section,
         session_id: @asb_sitting.id
-      }
+      )
       render json: @asb_sitting
     else
       render json: @asb_sitting.errors, status: :unprocessable_entity
     end
   end
+  
+  
 
   # DELETE /asb_sittings/1
   def destroy
