@@ -54,6 +54,27 @@
 #     }
 #   end
 # end
+# # end
+
+# require 'redis'
+
+# class SessionsChannel < ApplicationCable::Channel
+#   def subscribed
+#     student_id = params[:student_id]
+#     if student_id.present?
+#       stream_from "sessions_channel"
+#       REDIS.sadd("session_#{params[:session_id]}_students", student_id)
+#       Rails.logger.info "Student #{student_id} subscribed to session #{params[:session_id]}"
+#     end
+#   end
+
+#   def unsubscribed
+#     student_id = params[:student_id]
+#     if student_id.present?
+#       REDIS.srem("session_#{params[:session_id]}_students", student_id)
+#       Rails.logger.info "Student #{student_id} unsubscribed from session #{params[:session_id]}"
+#     end
+#   end
 # end
 
 require 'redis'
@@ -63,7 +84,8 @@ class SessionsChannel < ApplicationCable::Channel
     student_id = params[:student_id]
     if student_id.present?
       stream_from "sessions_channel"
-      REDIS.sadd("session_#{params[:session_id]}_students", student_id)
+      redis = Redis.new(url: ENV['REDIS_URL'])
+      redis.sadd("session_#{params[:session_id]}_students", student_id)
       Rails.logger.info "Student #{student_id} subscribed to session #{params[:session_id]}"
     end
   end
@@ -71,7 +93,8 @@ class SessionsChannel < ApplicationCable::Channel
   def unsubscribed
     student_id = params[:student_id]
     if student_id.present?
-      REDIS.srem("session_#{params[:session_id]}_students", student_id)
+      redis = Redis.new(url: ENV['REDIS_URL'])
+      redis.srem("session_#{params[:session_id]}_students", student_id)
       Rails.logger.info "Student #{student_id} unsubscribed from session #{params[:session_id]}"
     end
   end
