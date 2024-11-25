@@ -87,6 +87,13 @@ Rails.application.configure do
 
   # Only use :id for inspections in production.
   config.active_record.attributes_for_inspect = [ :id ]
+  
+  # config/environments/production.rb
+
+  # Configure Action Cable to allow connections from all origins
+  config.action_cable.allowed_request_origins = [/https?:\/\/.*/]
+
+  
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [
