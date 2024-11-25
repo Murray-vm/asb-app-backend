@@ -1,4 +1,4 @@
-# class SessionsController < ApplicationController
+class SessionsController < ApplicationController
 #   # skip_before_action :authorize, only: :create
 
 #   # def create
@@ -16,4 +16,4 @@
 #   #   head :no_content
 #   # end
 
-# end
+end
