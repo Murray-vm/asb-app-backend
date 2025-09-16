@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     render json: @users
   end
 
-  # GET /users/1
+  # GET /users/:id
   def show
     render json: @user
   end
