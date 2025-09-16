@@ -93,7 +93,7 @@ Rails.application.configure do
   # Configure Action Cable to allow connections from all origins
   config.action_cable.allowed_request_origins = [ /https?:\/\/.*/ ]
 
-
+  config.hosts << "asb-backend-3c8c8cd49769.herokuapp.com/"
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [
